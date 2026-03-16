@@ -1,116 +1,90 @@
+import java.lang.Thread.sleep
+import kotlin.random.Random
+
+//Use ALT e ENTER para importar mais rápido
+
 fun main() {
-    colecoesMapas()
+    val numero = Random.nextInt(1, 11)
+    println("$numero")//Crio um número aleatório de 1 a 10
 }
 
-fun intervalos(){
-    for (i in 1..10) {
-        print(" $i")
-    }
-    //Intervalos: Para dizer que você quer ir de um número a outro basta digitar
-    //O primeiro número seguido de .. (dois pontos) e depois o segundo número
-    //A palavra chave IN serve para indicar que o intervalo será representado
-    //pela variável i
+fun criarPilha() {
+    val pilha: ArrayDeque<String> = ArrayDeque<String>()
+    pilha.add("Ás de Paus")//adicionado no topo da pilha
+    pilha.add("Dois de Ouro")//adicionado no topo da pilha
+    pilha.add("Três de Copas")//adicionado no topo da pilha
+    pilha.add("Quatro de Espada")//adicionado no topo da pilha
 
-    //Contagem regressiva
-    println("Contagem regressiva... \n")
-    val x = 5
-    for(x in 10 downTo 1 step 2) {
-        print(" $x")
+    println("A carta no topo da pilha é ${pilha.last()}")
+
+    pilha.removeLast()//remove o elemento no topo da pilha
+    println("A nova carta no topo é ${pilha.last()}")
+}
+
+fun criarFila() {
+    val fila: ArrayDeque<String> = ArrayDeque<String>()
+    fila.addLast("Fulano")
+    fila.addLast("Mariazinha")
+    fila.addLast("Paulinho")
+    fila.addLast("Joãozinho")
+
+    println("O primeiro a ser atendido é ${fila.removeFirst()}.")
+}
+
+fun criarThread(){
+    val t1 = Thread {
+        sleep(1000)//Sleep faz a Thread esperar
+        for (i in 1..100) {
+            print(" $i")
+        }
     }
-    //Para percorrer um intervalo inverso use o DownTo
-    //Step são os passos que um intervalo pula
+    t1.start()//Sempre será preciso inicializar um Thread
+    t1.name = "Thread 1" //Renomear Thread
+    println("${t1.name} ainda está operando?")
+
+    //t1.interrupt()//mata a Thread, cuidado ao usar essa função encadeada
+
+    when(t1.isAlive){//Verifica se uma Thread terminou sua execução
+        true -> {println("SIM!")}
+        false -> {println("NÃO!")}
+    }
+    t1.join()//Trava as Thread subsequentes
+
+    val t2 = Thread {
+        print(" ACABOU!")
+    }.start()
+
+    println("T1 ainda está operando?")
+    when(t1.isAlive){//Verifica se uma Thread terminou sua execução
+        true -> {println("SIM!")}
+        false -> {println("NÃO!")}
+    }
     /**
-     * Um bloco de código começa com { (abrir parenteses)
-     * E termina com } (fechar parenteses)
+     * LAMBDA -> significa ação
+     * DIAMANTE <> significa tipagem
      */
 
-    val numeros : IntRange = 1..10
-}
-fun quando(){
-    println("\nDigite um numero de 1 a 7")
-    val dia : Int = readln().toInt() //READLN() sempre volta o tipo String
-
-    //A minha condição precisa ser do mesmo tipo (tipagem) das opções
-    when (dia) {
-        1 -> {
-            println("Hoje é domingo dia mais lindo")
-            println("Esse é um exemplo de WHEN com mais de uma linha")
+    val t3 = Thread {
+        for(i in 1..10) {
+            print(" $i")
         }
-        2 -> println("Hoje é segunda dia de labuta")
-        3 -> println("Hoje é terça dia de mesa")
-        4 -> println("Hoje é quarta de sofá")
-        5 -> println("Hoje é quinta tá na mica")
-        6 -> println("Hoje é sexta, sem dó da noite")
-        7 -> println("Hoje é sábado, moia o gato")
     }
-    //Operador Lambda ->
+    val t4 = Thread {
+        for(i in 11..20) {
+            print(" $i")
+        }
+    }
+    val t5 = Thread {
+        for(i in 30..31) {
+            print(" $i")
+        }
+    }
+    t3.start()
+    t4.start()
+    t5.start()
+
+    t3.priority = Thread.MIN_PRIORITY
+    t4.priority = Thread.NORM_PRIORITY
+    t5.priority = Thread.MAX_PRIORITY
 }
-fun colecoesArrays(){
-    println("Array de String: ")
-    val alfabeto = arrayOf("a", "b", "c", "d", "e", "f", "g")
 
-    println("Array de Inteiros: ")
-    val numerosPares = arrayOf(2, 4, 6, 8, 10)
-
-    for (i in 0 until alfabeto.size ) {
-        println("Letra do alfabeto : ${alfabeto[i]}; index : ${alfabeto.indexOf(alfabeto[i])}")
-        if (i < numerosPares.size)
-            println("${numerosPares[i]}")
-    }
-}
-fun colecoesMapas(){
-    val mapa = mapOf<String, Int>(
-        // Primeiro é a chave; Depois do "TO" é o valor
-        "Zero" to 0,
-        "Tres" to 3,
-        "Um" to 1,
-        "Dois" to 2
-    )//fim do mapa
-    //Para acessar o valor, invoque a variável com o nome da chave entre parenteses
-    println("Valor do mapa ${mapa["Tres"]}")
-    //Acessar cada chave (anonimato)
-
-    var mapaMutavel = mutableMapOf<String, Int>(
-        "Zero" to 0,
-        "Tres" to 3
-    )
-    mapaMutavel["Tres"] = 1 //alterar elemento com chave
-    mapaMutavel["Dois"] = 2 //criar chave com valor
-
-    println("Adicione uma chave")
-    val novaChave = readln()
-    mapaMutavel[novaChave] = 10 // adiciona uma nova chave e valor para o Mapa
-    println("A nova chave tem o valor ${mapaMutavel[novaChave]}")
-
-    println("Digite a chave que deseja remover")
-    val chave = readln()
-     // remover por chave
-    println("Valor do mapa removido! ${mapaMutavel.remove(chave)}")
-
-    mapaMutavel = mapa.toMutableMap()//Logo terminamos de comprovar a mudança
-
-    //Iterar por Mapas
-    mapaMutavel.forEach { numeroExtenso, numeroDigito ->
-        println("A chave é $numeroExtenso, o valor da chave é $numeroDigito")
-    }
-}
-fun colecoesListas(){
-    val frutas = listOf<String>("Banana", "Maçã", "Uva", "Abacate")
-    println("As minhas frutas são: $frutas")
-    if(frutas.contains("Banana")){//Retorna true se tem o elemento
-        println("Tem banana!")
-    }
-    println("Minha primeira fruta ${frutas.first()}")//Retorna o primeiro elemento da lista
-    println("Minha última fruta ${frutas.last()}")//Retorna o último elemento da lista
-
-    //Iterar por todos os elementos
-    frutas.forEach{ fruta -> //para renomear coloque o nome seguido de lambda
-        println(fruta)// IT é um objeto anonimo
-    }
-
-    val numeros = mutableListOf<Double>(10.1, 4.54, 3.51, 0.007)
-    numeros.add(0.001)//adicionar um novo elemento a lista
-    numeros.remove(10.1)//remover um elemento da lista
-    numeros.sort()//Ordenar uma lista
-    println("Os números são $numeros")
-}
