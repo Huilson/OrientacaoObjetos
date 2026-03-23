@@ -1,4 +1,4 @@
-class Pessoa {
+open class Pessoa {
     var nome:String = ""
     var peso:Double = 0.0
     var altura:Double = 0.0

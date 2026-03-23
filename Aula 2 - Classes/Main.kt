@@ -3,6 +3,17 @@
   Se eu instanciar uma classe, estarei criando um objeto
  * */
 fun main(){
+    val golfinho = Especie()
+    golfinho.setNome("Free Willy")
+    println(golfinho.getNome())
+
+    val doginho = Animal("Rex", 10.0)//Depêndencia
+    val billy = Cachorro("Billy", 5.5)
+    val mimi = Gato()//A instância já está contida no construtor da classe
+    doginho.fazerBarulho()
+    billy.fazerBarulho()
+    mimi.fazerBarulho()
+
     val pessoa : Pessoa = Pessoa()//Isso aqui é um objeto vazio
     pessoa.nome = "Maria"
     pessoa.altura = 1.69
