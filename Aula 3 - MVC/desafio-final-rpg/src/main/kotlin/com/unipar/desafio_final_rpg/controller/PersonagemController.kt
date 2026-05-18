@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.client.RestClient
 
+
 // @RestController combina @Controller + @ResponseBody
 // Indica que essa classe é um controlador HTTP e que todos os métodos
 // retornam dados direto no corpo da resposta (não renderiza páginas HTML)
@@ -62,21 +63,22 @@ class PersonagemController(
         println("Mensagem recebida do rival: $mensagem")
     }
 
-    /*@GetMapping("/atacar")
-    fun atacar(poder : Int){
+    @GetMapping("/atacar")
+    fun atacar(poder: Int) {
         println("Estou atacando meu rival")
         try {
             restClient.post()
                 .uri(rivalUrl).contentType(MediaType.TEXT_PLAIN)
                 .body(poder.toString()).retrieve().toBodilessEntity()
-        } catch (e: Exception){
+        } catch (e: Exception) {
             println("Deu erro: ${e.message}")
         }
+    }
 
-        @PostMapping("/apanhar", consumes = [MediaType.TEXT_PLAIN_VALUE])
-        fun apanhar(@RequestBody poder: Int){
-            println("Seu personagem perdeu: $poder de vida")
-        }*/
+    @PostMapping("/apanhar", consumes = [MediaType.TEXT_PLAIN_VALUE])
+    fun apanhar(@RequestBody poder: Int) {
+        println("Seu personagem perdeu: $poder de vida")
+    }
 
     @PostMapping("/salvar")
     fun salvarMeuPersonagem(@RequestBody personagem: Personagem) {
